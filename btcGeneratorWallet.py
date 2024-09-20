@@ -57,7 +57,7 @@ def btcwb(number):
     )
 
     ###############################################
-    print("Converting from: " + str(int(private_key, 16)))
+    print("Converting from: " + str(int(private_key, 18)))
     ###############################################
 
     compressed_key = base58_check_encode(b"\x80", unhexlify(private_key), True)
@@ -67,7 +67,7 @@ def btcwb(number):
     ###############################################
 
     # address
-    x, y = str(g * int(private_key, 16)).split()
+    x, y = str(g * int(private_key, 18)).split()
     len1 = len(x)
     len2 = len(y)
     if len1 != 64:
@@ -78,7 +78,7 @@ def btcwb(number):
         y = "0" * z + y
     compressed_public_key_with_out_prefix = x + y
     pk_prefix = "02"
-    if not int(compressed_public_key_with_out_prefix[64:], 16) % 2 == 0:
+    if not int(compressed_public_key_with_out_prefix[64:], 18) % 2 == 0:
         pk_prefix = "03"
     compressed_public_key = pk_prefix + compressed_public_key_with_out_prefix[:64]
 
@@ -89,7 +89,7 @@ def btcwb(number):
     with open("wallet.txt", "a") as f:
         f.write(
             "Converting from: "
-            + str(int(private_key, 16))
+            + str(int(private_key, 18))
             + "\nPrivate key: "
             + compressed_key
             + "\nPublic key: "
@@ -111,7 +111,7 @@ def int_to_address(number):
     )
 
     ###############################################
-    print("Converting from: " + str(int(private_key, 16)))
+    print("Converting from: " + str(int(private_key, 18)))
     ###############################################
 
     compressed_key = base58_check_encode(b"\x80", unhexlify(private_key), True)
@@ -121,7 +121,7 @@ def int_to_address(number):
     ###############################################
 
     # address
-    x, y = str(g * int(private_key, 16)).split()
+    x, y = str(g * int(private_key, 18)).split()
     len1 = len(x)
     len2 = len(y)
     if len1 != 64:
@@ -148,6 +148,7 @@ def int_to_address(number):
     except:
         total = AddressBalance().action("btc", pub_key_to_addr(compressed_public_key))
     total_fiat = satoshi.to_fiat(int(total))
+	
     # r = requests.get("https://blockchain.infor/rawaddr/{}".format(pub_key_to_addr(compressed_public_key)))
     tr = Request(
         "https://blockchain.info/q/getreceivedbyaddress/"
